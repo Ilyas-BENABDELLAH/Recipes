@@ -1,0 +1,46 @@
+{% extends "recipes/layout.html" %}
+{% load i18n %}
+
+{% block body %}
+<div class="container-fluid">
+    <h4 class="text-center mt-5 mb-3">{% translate 'WelcomeMessage' %} {{ request.user.username }}!</h4>
+
+    <div class="random-suggestion-container">
+        <form class="random-suggestion-form" role="search" action="{% url 'index' %}" method="GET">
+            <div class="input-group mb-3">
+                <input type="number" min="1" name="amount" class="form-control" value="3" placeholder="Enter Amount">
+                <button class="btn btn-outline-success" type="submit"><i class="bi-dice-3"></i> GetSuggestions</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="recipe-suggestions-container">
+        <h5 class="text-center mt-5 mb-3">{% translate 'RandomSuggestions' %}</h5>
+
+        {% if recipes %}
+            <div class="row">
+                {% for recipe in recipes %}
+                    <div class="col-md-4 col-sm-6 col-xs-12 mb-4">
+                        <div class="card">
+                            <div class="recipe-image-container">
+                                {% if recipe.img %}
+                                    <img src="{{ recipe.img }}" class="card-img-top" alt="{{ recipe.name }}">
+                                {% else %}
+                                    <p class="card-img-top">{% translate 'ImageNotAvailable' %}</p>
+                                {% endif %}
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">{{ recipe.name }}</h5>
+                                <a href="{% url 'edit_recipe' recipe.pk %}" class="btn btn-primary"><i class="bi-search">ViewRecipe</i> </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center">No recipes available.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

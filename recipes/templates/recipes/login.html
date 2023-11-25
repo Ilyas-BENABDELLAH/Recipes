@@ -1,0 +1,49 @@
+{% extends "recipes/layout.html" %}
+{% load i18n %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6 col-sm-8 col-xs-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0 text-center">{% translate 'Login' %}</h2>
+                </div>
+
+                <div class="card-body">
+                    {% if message %}
+                        <div class="alert alert-danger" role="alert">{{ message }}</div>
+                    {% endif %}
+
+                    <form action="{% url 'login' %}" method="post">
+                        {% csrf_token %}
+
+                        <div class="form-group mb-3">
+                            <label for="username" class="form-label">{% translate 'Username' %}</label>
+                            <input type="text" class="form-control" id="username" name="username" placeholder="{% translate 'Username' %}" required>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label for="password" class="form-label">{% translate 'Password' %}</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="{% translate 'Password' %}" required>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="rememberMe" name="remember_me">
+                            <label class="form-check-label" for="rememberMe">{% translate 'RememberMe' %}</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mb-2">{% translate 'Login' %}</button>
+
+                        <div class="mt-3">
+                            {% translate 'ExistingAccountQuestion' %} <a href="{% url 'register' %}">{% translate 'RegisterHere' %}</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
